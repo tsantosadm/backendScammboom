@@ -16,13 +16,18 @@ class Usuarios extends Model {
       sequelize,
     }
     );
-    //Só gerar um hash de senha se eu criar uma nova
+    //Só gera um hash de senha se eu criar uma nova senha
     this.addHook('beforeSave', async (usuario) => {
       if (usuario.senha) {
         usuario.senha_hash = await bcrypt.hash(usuario.senha, 8);
       }
     });
     return this;
+  }
+
+  //Verifica se a senha enviada corresponde à cadastrada
+  checaSenha(senha){
+    return bcrypt.compare(senha, this.senha_hash);
   }
 }
 
