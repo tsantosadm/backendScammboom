@@ -10,7 +10,6 @@ class Usuarios extends Model {
       senha_hash: Sequelize.STRING,
       numero_de_celular: Sequelize.STRING,
       data_de_nascimento: Sequelize.DATEONLY,
-      foto: Sequelize.BLOB,
     },
     {
       sequelize,
