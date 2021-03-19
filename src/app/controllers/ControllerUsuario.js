@@ -50,8 +50,6 @@ class ControllerUsuario {
       ),
     });
 
-    console.log(schema);
-
     if(!(await schema.isValid(req.body))){
       return res.status(400).json({error: 'A validação falhou, verifique os campos de senha'});
     }

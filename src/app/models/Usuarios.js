@@ -25,10 +25,15 @@ class Usuarios extends Model {
     return this;
   }
 
+  static associate(models) {
+    this.belongsTo(models.Arquivo, {foreignKey: 'avatar_id'})
+  }
+
   //Verifica se a senha enviada corresponde à cadastrada
   checaSenha(senha){
     return bcrypt.compare(senha, this.senha_hash);
   }
+
 }
 
 export default Usuarios;
