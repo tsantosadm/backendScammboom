@@ -29,13 +29,16 @@ class ControllerSessao {
       return res.status(401).json({error: 'Senha incorreta!'})
     }
 
-    const { id, nome } = usuario;
+    const { id, nome, avatar_id, numero_de_celular, data_de_nascimento} = usuario;
 
     return res.json({
       usuario: {
         id,
         email,
-        nome
+        nome,
+        avatar_id, 
+        numero_de_celular,
+        data_de_nascimento
       },
       token: jwt.sign({id}, authConfig.segredo, {
         expiresIn: authConfig.expiresIn,
