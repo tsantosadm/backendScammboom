@@ -9,6 +9,13 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      usuario_id:{
+        type: Sequelize.INTEGER,
+        references: {model: 'usuarios', key: 'id' },
+        onUpdate: 'CASCADE',
+        onUpdate: 'SET NULL',
+        allowNull: false,
+      },
       formacao: {
         type: Sequelize.TEXT('tiny'),
         allowNull: true,

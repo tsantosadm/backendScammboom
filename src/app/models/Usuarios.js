@@ -21,11 +21,13 @@ class Usuarios extends Model {
         usuario.senha_hash = await bcrypt.hash(usuario.senha, 8);
       }
     });
-    return this;
+    return this; 
   }
 
   static associate(models) {
     this.belongsTo(models.Arquivo, {foreignKey: 'avatar_id'})
+    this.hasMany(models.Publicacoes, {foreignKey: 'usuario_id'})
+    this.hasOne(models.Curriculos, {foreignKey: 'usuario_id'})
   }
 
   //Verifica se a senha enviada corresponde à cadastrada

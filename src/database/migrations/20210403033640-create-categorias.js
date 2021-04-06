@@ -2,28 +2,16 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('enderecos', {
+    await queryInterface.createTable('categorias', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      rua: {
-        type: Sequelize.STRING(50),
+      nome: {
+        type: Sequelize.STRING,
         allowNull: false,
-      },
-      bairro: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-      },
-      numero_da_casa: {
-        type: Sequelize.STRING(5),
-        allowNull: true,
-      },
-      cep: {
-        type: Sequelize.STRING(8),
-        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -37,6 +25,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-     await queryInterface.dropTable('enderecos');
+     await queryInterface.dropTable('categorias');
   }
 };

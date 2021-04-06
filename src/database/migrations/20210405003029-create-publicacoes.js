@@ -9,10 +9,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      data_e_hora_de_criacao: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       foto_do_item: {
         type: Sequelize.BLOB,
         allowNull: false,
@@ -23,11 +19,33 @@ module.exports = {
       },
       disponivel: {
         type: Sequelize.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
       },
       descricao: {
         type: Sequelize.TEXT('tiny'),
         allowNull: true,
+      },
+      titulo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      categoria_id: {
+        type: Sequelize.INTEGER,
+        references: {model: 'categorias', key: 'id' },
+        onUpdate: 'CASCADE',
+        onUpdate: 'SET NULL',
+        allowNull: false,
+      },
+      usuario_id: {
+        type: Sequelize.INTEGER,
+        references: {model: 'usuarios', key: 'id' },
+        onUpdate: 'CASCADE',
+        onUpdate: 'SET NULL',
+        allowNull: false,
+      },
+      troca_por: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
