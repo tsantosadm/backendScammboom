@@ -11,6 +11,9 @@ class Categorias extends Model {
     });
     return this; 
   }
+  static associate(models) {
+    this.hasOne(models.Publicacoes, {foreignKey: 'categoria_id'});
+   }
 }
 
 export default Categorias;

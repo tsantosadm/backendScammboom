@@ -14,6 +14,9 @@ class Curriculos extends Model {
     });
     return this; 
   }
+  static associate(models) {
+    this.belongsTo(models.Usuarios, {foreignKey: 'usuario_id'});
+  }
 }
 
 export default Curriculos;

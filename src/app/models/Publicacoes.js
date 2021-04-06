@@ -17,7 +17,8 @@ class Publicacoes extends Model {
     return this;
   }
   static associate(models) {
-   this.belongsTo(models.Categorias, {foreignKey: 'categoria_id'})
+   this.belongsTo(models.Categorias, {foreignKey: 'categoria_id'});
+   this.belongsTo(models.Usuarios, {foreignKey: 'usuario_id'});
   }
 }
 

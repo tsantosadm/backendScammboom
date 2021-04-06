@@ -16,14 +16,19 @@ const upload = multer(multerConfig);
 routes.post('/usuarios', ControllerUsuario.store);
 routes.post('/sessoes', ControllerSessao.store);
 routes.post('/categorias', ControllerCategorias.store);
-routes.post('/publicacoes', ControllerPublicacoes.store);
-routes.get('/publicacoes', ControllerPublicacoes.getAll);
-routes.post('/curriculo', ControllerCurriculo.store);
 
-//Middleware global que executa depois das duas primeiras rotas
+//Middleware global que executa depois das rotas anteriores
 routes.use(authMiddleware);
 
 routes.put('/usuarios', ControllerUsuario.update);
+
+routes.post('/publicacoes', ControllerPublicacoes.store);
+routes.get('/publicacoes', ControllerPublicacoes.index);
+routes.get('/publicacoes/usuario', ControllerPublicacoes.indexUsuario);
+routes.get('/publicacoes/categoria', ControllerPublicacoes.indexCategoria);
+
+routes.post('/curriculo', ControllerCurriculo.store);
+routes.get('/curriculo/usuario', ControllerCurriculo.indexUsuario);
 
 routes.post('/arquivos', upload.single('arquivo'), ControllerArquivo.store);
 

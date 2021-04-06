@@ -42,13 +42,69 @@ class ControllerPublicacoes {
         });
     }
 
-    async getAll(req, res){
+    async index(req, res){
         const publicacoes = await Publicacoes.findAll({where: {disponivel: true}});
 
         if(publicacoes.length === 0 ) {
             return res.json({"message": "Nenhuma publicação cadastrada!"});
         }
     
+        return res.json(publicacoes);
+    }
+
+    async indexUsuario(req, res){
+        const usuario = req.body.usuario_id;
+
+        const existeUsuario = await Usuarios.findOne({where: {id: usuario}});
+        
+        if(!existeUsuario){
+            return res.status(400).json({error: 'Usuário não encontrado!'})
+        }
+
+        const publicacoes = await Publicacoes.findAll({
+            where: {disponivel: true, usuario_id: usuario},
+            order: ['id'],
+            attributes: ['titulo', 'descricao', 'troca_por'],
+            include: [
+                {
+                    model: Usuarios,
+                    attributes: ['id', 'nome'],
+                }
+            ]
+        });
+
+        if(publicacoes.length === 0 ) {
+            return res.json({"message": "Nenhuma publicação cadastrada pelo usuário!"});
+        }
+
+        return res.json(publicacoes);
+    }
+
+    async indexCategoria(req, res){
+        const categoria = req.body.categoria_id;
+
+        const existeCategoria = await Categorias.findOne({where: {id: categoria}});
+        
+        if(!existeCategoria){
+            return res.status(400).json({error: 'Categoria não encontrada!'})
+        }
+
+        const publicacoes = await Publicacoes.findAll({
+            where: {disponivel: true, categoria_id: categoria},
+            order: ['id'],
+            attributes: ['titulo', 'descricao', 'troca_por'],
+            include: [
+                {
+                    model: Categorias,
+                    attributes: ['id', 'nome'],
+                }
+            ]
+        });
+
+        if(publicacoes.length === 0 ) {
+            return res.json({"message": "Nenhuma publicação cadastrada para a categoria procurada!"});
+        }
+
         return res.json(publicacoes);
     }
 }
