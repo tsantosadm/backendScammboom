@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('curriculos', {
+    await queryInterface.createTable('favoritos', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -16,21 +16,12 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      formacao: {
-        type: Sequelize.TEXT('tiny'),
-        allowNull: true,
-      },
-      habilidade: {
-        type: Sequelize.TEXT('tiny'),
-        allowNull: true,
-      },
-      especializacao: {
-        type: Sequelize.TEXT('tiny'),
-        allowNull: true,
-      },
-      certificacoes: {
-        type: Sequelize.BLOB,
-        allowNull: true,
+      publicacao_id:{
+        type: Sequelize.INTEGER,
+        references: {model: 'publicacoes', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -44,6 +35,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('curriculos');
+     await queryInterface.dropTable('favoritos');
   }
 };

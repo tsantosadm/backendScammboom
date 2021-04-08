@@ -25,9 +25,10 @@ class Usuarios extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Arquivo, {foreignKey: 'avatar_id'})
-    this.hasMany(models.Publicacoes, {foreignKey: 'usuario_id'})
-    this.hasOne(models.Curriculos, {foreignKey: 'usuario_id'})
+    this.belongsTo(models.Arquivo, {foreignKey: 'avatar_id'});
+    this.hasMany(models.Publicacoes, {foreignKey: 'usuario_id'});
+    this.hasMany(models.Favoritos, {foreignKey: 'usuario_id'});
+    this.hasOne(models.Curriculos, {foreignKey: 'usuario_id'});
   }
 
   //Verifica se a senha enviada corresponde à cadastrada

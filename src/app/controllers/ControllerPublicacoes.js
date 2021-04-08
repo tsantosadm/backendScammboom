@@ -11,7 +11,6 @@ class ControllerPublicacoes {
         const schema = Yup.object().shape({
         titulo: Yup.string().required(),
         categoria_id: Yup.number().required().positive().integer(),
-        usuario_id: Yup.number().required().positive().integer(),
         troca_por: Yup.string().required(),
         });
 
@@ -19,12 +18,16 @@ class ControllerPublicacoes {
             return res.status(400).json({error: 'A validação falhou'});
         }
         
-        const existeUsuario = await Usuarios.findOne({where: {id: req.body.usuario_id}});
+        const usuario = req.UsuarioId;
+
+        const existeUsuario = await Usuarios.findOne({where: {id: usuario}});
         const existeCategoria = await Categorias.findOne({where: {id: req.body.categoria_id}});
 
         if(!(existeUsuario && existeCategoria)){
             return res.status(400).json({error: 'Usuário ou Categoria não encontrada!'})
         }
+
+        req.body.usuario_id = usuario;
 
         const {id, titulo, categoria_id, usuario_id, numero_de_celular, descricao, troca_por, foto_do_item, disponivel} = await Publicacoes.create(req.body);
         
@@ -53,7 +56,7 @@ class ControllerPublicacoes {
     }
 
     async indexUsuario(req, res){
-        const usuario = req.body.usuario_id;
+        const usuario = req.UsuarioId;
 
         const existeUsuario = await Usuarios.findOne({where: {id: usuario}});
         
@@ -61,14 +64,14 @@ class ControllerPublicacoes {
             return res.status(400).json({error: 'Usuário não encontrado!'})
         }
 
+        //Relacionamento de publicação e usuário
         const publicacoes = await Publicacoes.findAll({
             where: {disponivel: true, usuario_id: usuario},
             order: ['id'],
-            attributes: ['titulo', 'descricao', 'troca_por'],
             include: [
                 {
                     model: Usuarios,
-                    attributes: ['id', 'nome'],
+                    attributes: ['id', 'nome', 'email'],
                 }
             ]
         });
@@ -81,7 +84,7 @@ class ControllerPublicacoes {
     }
 
     async indexCategoria(req, res){
-        const categoria = req.body.categoria_id;
+        const categoria = req.params.id;
 
         const existeCategoria = await Categorias.findOne({where: {id: categoria}});
         
@@ -92,7 +95,6 @@ class ControllerPublicacoes {
         const publicacoes = await Publicacoes.findAll({
             where: {disponivel: true, categoria_id: categoria},
             order: ['id'],
-            attributes: ['titulo', 'descricao', 'troca_por'],
             include: [
                 {
                     model: Categorias,

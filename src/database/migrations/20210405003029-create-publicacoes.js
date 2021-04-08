@@ -33,14 +33,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: 'categorias', key: 'id' },
         onUpdate: 'CASCADE',
-        onUpdate: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
       usuario_id: {
         type: Sequelize.INTEGER,
         references: {model: 'usuarios', key: 'id' },
         onUpdate: 'CASCADE',
-        onUpdate: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
       troca_por: {

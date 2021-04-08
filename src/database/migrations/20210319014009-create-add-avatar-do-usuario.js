@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: 'arquivos', key: 'id' },
         onUpdate: 'CASCADE',
-        onUpdate: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: true,
       }
     )

@@ -7,6 +7,7 @@ import ControllerArquivo from './app/controllers/ControllerArquivo';
 import ControllerCategorias from './app/controllers/ControllerCategorias';
 import ControllerPublicacoes from './app/controllers/ControllerPublicacoes'; 
 import ControllerCurriculo from './app/controllers/ControllerCurriculo';
+import ControllerFavoritos from './app/controllers/ControllerFavoritos';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -25,7 +26,9 @@ routes.put('/usuarios', ControllerUsuario.update);
 routes.post('/publicacoes', ControllerPublicacoes.store);
 routes.get('/publicacoes', ControllerPublicacoes.index);
 routes.get('/publicacoes/usuario', ControllerPublicacoes.indexUsuario);
-routes.get('/publicacoes/categoria', ControllerPublicacoes.indexCategoria);
+routes.post('/publicacoes/favorito', ControllerFavoritos.store);
+routes.get('/publicacoes/favoritos', ControllerFavoritos.indexUsuario);
+routes.get('/publicacoes/categoria/:id', ControllerPublicacoes.indexCategoria);
 
 routes.post('/curriculo', ControllerCurriculo.store);
 routes.get('/curriculo/usuario', ControllerCurriculo.indexUsuario);

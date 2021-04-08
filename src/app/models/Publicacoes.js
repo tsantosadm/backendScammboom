@@ -19,6 +19,7 @@ class Publicacoes extends Model {
   static associate(models) {
    this.belongsTo(models.Categorias, {foreignKey: 'categoria_id'});
    this.belongsTo(models.Usuarios, {foreignKey: 'usuario_id'});
+   this.hasMany(models.Favoritos, {foreignKey: 'publicacao_id'});
   }
 }
 
