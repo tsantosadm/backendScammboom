@@ -1,15 +1,15 @@
-import { Router } from 'express';
-import multer from 'multer';
-import multerConfig from './config/multer';
-import ControllerUsuario from './app/controllers/ControllerUsuario';
-import ControllerSessao from './app/controllers/ControllerSessao';
-import ControllerArquivo from './app/controllers/ControllerArquivo';
-import ControllerCategorias from './app/controllers/ControllerCategorias';
-import ControllerPublicacoes from './app/controllers/ControllerPublicacoes'; 
-import ControllerCurriculo from './app/controllers/ControllerCurriculo';
-import ControllerFavoritos from './app/controllers/ControllerFavoritos';
+const { Router } = require('express');
+const multer = require('multer');
+const multerConfig = require('./config/multer');
+const ControllerUsuario = require('./app/controllers/ControllerUsuario');
+const ControllerSessao = require('./app/controllers/ControllerSessao');
+const ControllerArquivo = require('./app/controllers/ControllerArquivo');
+const ControllerCategorias = require('./app/controllers/ControllerCategorias');
+const ControllerPublicacoes = require('./app/controllers/ControllerPublicacoes');
+const ControllerCurriculo = require('./app/controllers/ControllerCurriculo');
+const ControllerFavoritos = require('./app/controllers/ControllerFavoritos');
 
-import authMiddleware from './app/middlewares/auth';
+const authMiddleware = require('./app/middlewares/auth');
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -35,4 +35,5 @@ routes.get('/curriculo/usuario', ControllerCurriculo.indexUsuario);
 
 routes.post('/arquivos', upload.single('arquivo'), ControllerArquivo.store);
 
-export default routes;
+module.exports = routes;
+//export default routes;

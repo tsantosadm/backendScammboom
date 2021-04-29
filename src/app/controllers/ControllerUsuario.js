@@ -1,9 +1,8 @@
-import * as Yup from  'yup';
+import * as Yup from 'yup';
 import Usuario from '../models/Usuarios';
 
 class ControllerUsuario {
-  async store(req, res){
-
+  async store(req, res) {
     //Construo um esquema de validação. 'Requerid' é obrigatório e 'min' é o tamanho mínimo
     const schema = Yup.object().shape({
       nome: Yup.string().required(),
@@ -11,72 +10,83 @@ class ControllerUsuario {
       numero_de_celular: Yup.string().required().min(9),
       senha: Yup.string().required().min(6),
     });
+    console.log('caramba! nome!', schema.nome);
+    console.log('caramba! email!', schema.email);
+    console.log('caramba! celular!', schema.numero_de_celular);
+    console.log('caramba! senha!', schema.senha);
 
-    if(!(await schema.isValid(req.body))){
-      return res.status(400).json({error: 'A validação falhou'});
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'A validação falhou' });
     }
 
-    const existeUsuario = await Usuario.findOne({where: {email: req.body.email}});
+    const existeUsuario = await Usuario.findOne({
+      where: { email: req.body.email },
+    });
 
-    if(existeUsuario){
-      return res.status(400).json({error: 'Usuário já existe!'});
+    if (existeUsuario) {
+      return res.status(400).json({ error: 'Usuário já existe!' });
     }
 
-    const {id, nome, email, numero_de_celular } = await Usuario.create(req.body);
+    const { id, nome, email, numero_de_celular } = await Usuario.create(
+      req.body
+    );
 
     return res.json({
       id,
       nome,
       email,
-      numero_de_celular
+      numero_de_celular,
     });
   }
 
   //Atualização do usuário (apenas senha e email, por enquanto)
-  async update(req, res){
-
+  async update(req, res) {
     //Construo um esquema de validação. 'Requerid' é obrigatório e 'min' é o tamanho mínimo
     //When é uma estrutura condicional que trabalha como o equanto
     const schema = Yup.object().shape({
       nome: Yup.string(),
       email: Yup.string(),
       senhaAntiga: Yup.string().min(6),
-      senha: Yup.string().min(6).when('senhaAntiga',
-      (senhaAntiga, field) =>
-        senhaAntiga ? field.required() : field
-      ),
+      senha: Yup.string()
+        .min(6)
+        .when('senhaAntiga', (senhaAntiga, field) =>
+          senhaAntiga ? field.required() : field
+        ),
       confirmaSenha: Yup.string().when('senha', (senha, field) =>
         senha ? field.required().oneOf([Yup.ref('senha')]) : field
       ),
     });
 
-    if(!(await schema.isValid(req.body))){
-      return res.status(400).json({error: 'A validação falhou, verifique os campos de senha'});
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 'A validação falhou, verifique os campos de senha' });
     }
 
-    const {email, senhaAntiga} = req.body;
+    const { email, senhaAntiga } = req.body;
 
     //Busca o usuário pelo id no banco de dados
     const usuario = await Usuario.findByPk(req.UsuarioId);
 
     //Verifica se o email é igual ao cadastrado
     if (email !== usuario.email) {
-
-      const existeUsuario = await Usuario.findOne({where: {email: req.body.email}});
+      const existeUsuario = await Usuario.findOne({
+        where: { email: req.body.email },
+      });
       console.log(existeUsuario);
 
-      if(existeUsuario){
-        return res.status(400).json({error: 'Usuário já existe!'});
+      if (existeUsuario) {
+        return res.status(400).json({ error: 'Usuário já existe!' });
       }
     }
 
     //Verifica se o usuário quer mudar a senha antiga
     if (senhaAntiga && !(await usuario.checaSenha(senhaAntiga))) {
-      return res.status(401).json({error: 'Senha incorreta!'})
+      return res.status(401).json({ error: 'Senha incorreta!' });
     }
 
     //Atuaiza o usuário no banco de dados
-    const {id, senha} = await usuario.update(req.body);
+    const { id, senha } = await usuario.update(req.body);
 
     return res.json({
       id,
