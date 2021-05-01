@@ -11,6 +11,7 @@ const http = require('http').Server(http);
 const io = require('socket.io')(http);
 
 app.use(cors());
+console.log('Teste');
 
 if (http) {
   console.log(`Existe um ${http}`);
@@ -25,7 +26,7 @@ if (io) {
 }
 
 http.listen(3030);
-//class App {
+// class App {
 //  constructor() {
 //    this.server = express();
 //    this.middlewares();
